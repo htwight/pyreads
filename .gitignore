@@ -1,0 +1,4 @@
+# Files for testing
+debug/*
+
+__pycache__/
