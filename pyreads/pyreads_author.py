@@ -1,6 +1,6 @@
 class PyReadsAuthor(object):
     def __init__(self, author_dict):
-        self._author_dict = author_dict['author']
+        self._author_dict = author_dict
 
     @property
     def id(self):
