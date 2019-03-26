@@ -1,6 +1,7 @@
 from requests_oauthlib import OAuth1Session
 from pyreads_author import PyReadsAuthor
 from pyreads_book import PyReadsBook
+from pyreads_group import PyReadsGroup
 import xmltodict
 
 class PyReads(object):
@@ -18,19 +19,25 @@ class PyReads(object):
         return self.oauth.get(url, params=payload)
 
     def author(self, author_id):
-        r = self.request(f"https://www.goodreads.com/author/show/{author_id}").text
-        author = xmltodict.parse(r)
+        r = self.request(f"https://www.goodreads.com/author/show/{author_id}")
+        author = xmltodict.parse(r.text)
         author_dict = author['GoodreadsResponse']['author']
         return PyReadsAuthor(author_dict)
 
     def book(self, isbn):
-        r = self.request(f"https://www.goodreads.com/book/isbn/{isbn}?").text
-        book = xmltodict.parse(r)
+        r = self.request(f"https://www.goodreads.com/book/isbn/{isbn}?")
+        book = xmltodict.parse(r.text)
         book_dict = book['GoodreadsResponse']['book']
         return PyReadsBook(book_dict)
 
     def book_by_id(self, book_id):
-        r = self.request(f"https://www.goodreads.com/book/show/{book_id}.xml").text
-        book = xmltodict.parse(r)
+        r = self.request(f"https://www.goodreads.com/book/show/{book_id}.xml")
+        book = xmltodict.parse(r.text)
         book_dict = book['GoodreadsResponse']['book']
         return PyReadsBook(book_dict)
+
+    def group(self, group_id):
+        r = self.request(f"https://www.goodreads.com/group/show/{group_id}-goodreads-feedback.xml")
+        group = xmltodict.parse(r.text)
+        group_dict = group['GoodreadsResponse']['group']
+        return PyReadsGroup(group_dict)

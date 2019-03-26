@@ -2,3 +2,5 @@
 debug/*
 
 __pycache__/
+
+gen.py
