@@ -2,6 +2,7 @@ from requests_oauthlib import OAuth1Session
 from pyreads_author import PyReadsAuthor
 from pyreads_book import PyReadsBook
 from pyreads_group import PyReadsGroup
+from pyreads_series import PyReadsSeries
 import xmltodict
 
 class PyReads(object):
@@ -41,3 +42,9 @@ class PyReads(object):
         group = xmltodict.parse(r.text)
         group_dict = group['GoodreadsResponse']['group']
         return PyReadsGroup(group_dict)
+
+    def series(self, series_id):
+        r = self.request(f"https://www.goodreads.com/series/{series_id}")
+        series = xmltodict.parse(r.text)
+        series_dict = series['GoodreadsResponse']['series']
+        return PyReadsSeries(series_dict)
